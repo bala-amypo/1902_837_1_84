@@ -1,15 +1,13 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Garage;
 import com.example.demo.repository.GarageRepository;
 import com.example.demo.service.GarageService;
-
-import org.springframework.stereotype.Service;  
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service  
+@Service
 public class GarageServiceImpl implements GarageService {
 
     private final GarageRepository garageRepository;
@@ -20,31 +18,7 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public Garage createGarage(Garage garage) {
-        garageRepository.findByGarageName(garage.getGarageName())
-                .ifPresent(g -> {
-                    throw new IllegalArgumentException("already exists");
-                });
-
-        garage.setActive(true);
         return garageRepository.save(garage);
-    }
-
-    @Override
-    public Garage updateGarage(Long id, Garage garage) {
-        Garage existing = garageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Garage not found"));
-
-        existing.setAddress(garage.getAddress());
-        existing.setContactNumber(garage.getContactNumber());
-        existing.setActive(garage.getActive());
-
-        return garageRepository.save(existing);
-    }
-
-    @Override
-    public Garage getGarageById(Long id) {
-        return garageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Garage not found"));
     }
 
     @Override
@@ -53,9 +27,18 @@ public class GarageServiceImpl implements GarageService {
     }
 
     @Override
-    public void deactivateGarage(Long id) {
-        Garage garage = getGarageById(id);
-        garage.setActive(false);
-        garageRepository.save(garage);
+    public Garage getGarageById(Long id) {
+        return garageRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Garage updateGarage(Long id, Garage garage) {
+        garage.setId(id);
+        return garageRepository.save(garage);
+    }
+
+    @Override
+    public void deleteGarage(Long id) {
+        garageRepository.deleteById(id);
     }
 }

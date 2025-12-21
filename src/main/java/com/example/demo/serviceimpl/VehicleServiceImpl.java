@@ -1,12 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import org.springframework.stereotype.Service;  
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -19,33 +18,27 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
-        vehicleRepository.findByVin(vehicle.getVin()).ifPresent(v -> {
-            throw new IllegalArgumentException("VIN already exists");
-        });
         return vehicleRepository.save(vehicle);
     }
 
     @Override
+    public List<Vehicle> getAllVehicles() {
+        return vehicleRepository.findAll();
+    }
+
+    @Override
     public Vehicle getVehicleById(Long id) {
-        return vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+        return vehicleRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Vehicle getVehicleByVin(String vin) {
-        return vehicleRepository.findByVin(vin)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+    public Vehicle updateVehicle(Long id, Vehicle vehicle) {
+        vehicle.setId(id);
+        return vehicleRepository.save(vehicle);
     }
 
     @Override
-    public List<Vehicle> getVehiclesByOwner(Long ownerId) {
-        return vehicleRepository.findByOwnerId(ownerId);
-    }
-
-    @Override
-    public void deactivateVehicle(Long id) {
-        Vehicle vehicle = getVehicleById(id);
-        vehicle.setActive(false);
-        vehicleRepository.save(vehicle);
+    public void deleteVehicle(Long id) {
+        vehicleRepository.deleteById(id);
     }
 }
