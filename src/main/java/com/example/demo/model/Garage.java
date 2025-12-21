@@ -20,12 +20,11 @@ public class Garage {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
-    private Boolean active;
-
     @Column
-private String contactNumber;
+    private String contactNumber;
 
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @OneToMany(
         mappedBy = "garage",
@@ -36,29 +35,46 @@ private String contactNumber;
 
     public Garage() {}
 
-    public Garage(String garageName, String address, Boolean active) {
+    public Garage(String garageName, String address, String contactNumber) {
         this.garageName = garageName;
         this.address = address;
-        this.active = active;
+        this.contactNumber = contactNumber;
+        this.active = true;
     }
 
-    // Getters & Setters
-    public String getGarageName() { return garageName; }
+    /* ================= GETTERS ================= */
 
-public String getAddress() { return address; }
+    public Long getId() {
+        return id;
+    }
 
-public String getContactNumber() { return contactNumber; }
+    public String getGarageName() {
+        return garageName;
+    }
 
-public Boolean getActive() { return active; }
+    public String getAddress() {
+        return address;
+    }
 
-public void setActive(Boolean active) { this.active = active; }
-public void setAddress(String address) {
-    this.address = address;
-}
+    public String getContactNumber() {
+        return contactNumber;
+    }
 
-public void setContactNumber(String contactNumber) {
-    this.contactNumber = contactNumber;
-}
+    public Boolean getActive() {
+        return active;
+    }
 
+    /* ================= SETTERS ================= */
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
