@@ -1,49 +1,66 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "service_entries")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ServiceEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "vehicle_id", nullable = false)
-    private Vehicle vehicle;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "garage_id", nullable = false)
-    private Garage garage;
-
-    @Column(nullable = false)
-    private String serviceType;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date serviceDate;
-
-    @Column(nullable = false)
+    private LocalDate serviceDate;
     private Integer odometerReading;
 
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
-    @Column(nullable = false, updatable = false)
-    private Timestamp recordedAt;
+    @ManyToOne
+    @JoinColumn(name = "garage_id")
+    private Garage garage;
 
-    @PrePersist
-    protected void onCreate() {
-        this.recordedAt = new Timestamp(System.currentTimeMillis());
+    public ServiceEntry() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDate getServiceDate() {
+        return serviceDate;
+    }
+
+    public Integer getOdometerReading() {
+        return odometerReading;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public Garage getGarage() {
+        return garage;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setServiceDate(LocalDate serviceDate) {
+        this.serviceDate = serviceDate;
+    }
+
+    public void setOdometerReading(Integer odometerReading) {
+        this.odometerReading = odometerReading;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void setGarage(Garage garage) {
+        this.garage = garage;
     }
 }

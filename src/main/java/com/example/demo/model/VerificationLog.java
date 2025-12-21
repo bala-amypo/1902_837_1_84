@@ -1,40 +1,42 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "verification_logs")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class VerificationLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "service_entry_id", nullable = false)
-    private ServiceEntry serviceEntry;
+    private String message;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(nullable = false, updatable = false)
-    private Timestamp verifiedAt;
+    public VerificationLog() {}
 
-    @Column(nullable = false)
-    private Boolean verifiedBySystem = true;
+    public Long getId() {
+        return id;
+    }
 
-    private String notes;
+    public String getMessage() {
+        return message;
+    }
 
-    @PrePersist
-    protected void onCreate() {
-        this.verifiedAt = new Timestamp(System.currentTimeMillis());
-        if (this.verifiedBySystem == null) {
-            this.verifiedBySystem = true;
-        }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
