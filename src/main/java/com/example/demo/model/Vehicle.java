@@ -1,13 +1,19 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(
-    name = "vehicles",
-    uniqueConstraints = @UniqueConstraint(columnNames = "vin")
+        name = "vehicles",
+        uniqueConstraints = @UniqueConstraint(columnNames = "vin")
 )
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Vehicle {
 
     @Id
@@ -18,7 +24,9 @@ public class Vehicle {
     private String vin;
 
     private String make;
+
     private String model;
+
     private Integer year;
 
     @Column(nullable = false)
@@ -27,25 +35,14 @@ public class Vehicle {
     @Column(nullable = false)
     private Boolean active = true;
 
-    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+    @Column(nullable = false, updatable = false)
+    private Timestamp createdAt;
 
-    public Vehicle() {}
-
-    public Long getId() { return id; }
-    public String getVin() { return vin; }
-    public String getMake() { return make; }
-    public String getModel() { return model; }
-    public Integer getYear() { return year; }
-    public Long getOwnerId() { return ownerId; }
-    public Boolean getActive() { return active; }
-    public Timestamp getCreatedAt() { return createdAt; }
-
-    public void setId(Long id) { this.id = id; }
-    public void setVin(String vin) { this.vin = vin; }
-    public void setMake(String make) { this.make = make; }
-    public void setModel(String model) { this.model = model; }
-    public void setYear(Integer year) { this.year = year; }
-    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
-    public void setActive(Boolean active) { this.active = active; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        if (this.active == null) {
+            this.active = true;
+        }
+    }
 }
