@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "verification_logs")
@@ -11,27 +11,23 @@ public class VerificationLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "service_entry_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "service_entry_id",
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_verification_service_entry")
+    )
     private ServiceEntry serviceEntry;
 
-    private Timestamp verifiedAt = new Timestamp(System.currentTimeMillis());
-    private Boolean verifiedBySystem = true;
-    private String notes;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime verifiedAt;
 
     public VerificationLog() {}
 
-    // GETTERS
-    public Long getId() { return id; }
-    public ServiceEntry getServiceEntry() { return serviceEntry; }
-    public Timestamp getVerifiedAt() { return verifiedAt; }
-    public Boolean getVerifiedBySystem() { return verifiedBySystem; }
-    public String getNotes() { return notes; }
+    public VerificationLog(ServiceEntry serviceEntry) {
+        this.serviceEntry = serviceEntry;
+        this.verifiedAt = LocalDateTime.now();
+    }
 
-    // SETTERS
-    public void setId(Long id) { this.id = id; }
-    public void setServiceEntry(ServiceEntry serviceEntry) { this.serviceEntry = serviceEntry; }
-    public void setVerifiedAt(Timestamp verifiedAt) { this.verifiedAt = verifiedAt; }
-    public void setVerifiedBySystem(Boolean verifiedBySystem) { this.verifiedBySystem = verifiedBySystem; }
-    public void setNotes(String notes) { this.notes = notes; }
+    // Getters & Setters
 }
