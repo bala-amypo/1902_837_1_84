@@ -39,4 +39,14 @@ public class Garage {
     }
 
     // Getters & Setters
+    public String getGarageName() { return garageName; }
+
+public String getAddress() { return address; }
+
+public String getContactNumber() { return contactNumber; }
+
+public Boolean getActive() { return active; }
+
+public void setActive(Boolean active) { this.active = active; }
+
 }

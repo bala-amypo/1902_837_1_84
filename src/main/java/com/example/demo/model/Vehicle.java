@@ -49,4 +49,14 @@ public class Vehicle {
     }
 
     // Getters & Setters
+    public Long getId() { return id; }
+
+public String getVin() { return vin; }
+
+public void setVin(String vin) { this.vin = vin; }
+
+public Boolean getActive() { return active; }
+
+public void setActive(Boolean active) { this.active = active; }
+
 }
