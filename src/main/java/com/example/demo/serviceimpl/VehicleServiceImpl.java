@@ -6,7 +6,7 @@ import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
 
 import java.util.List;
-
+@Service
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
