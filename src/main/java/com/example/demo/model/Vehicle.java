@@ -1,48 +1,52 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.sql.Timestamp;
 
 @Entity
-@Table(
-        name = "vehicles",
-        uniqueConstraints = @UniqueConstraint(columnNames = "vin")
-)
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "vehicles")
 public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String vin;
 
-    private String make;
-
-    private String model;
-
-    private Integer year;
-
-    @Column(nullable = false)
-    private Long ownerId;
-
-    @Column(nullable = false)
+    private String ownerName;
     private Boolean active = true;
 
-    @Column(nullable = false, updatable = false)
-    private Timestamp createdAt;
+    public Vehicle() {}
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
-        if (this.active == null) {
-            this.active = true;
-        }
+    public Long getId() {
+        return id;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
