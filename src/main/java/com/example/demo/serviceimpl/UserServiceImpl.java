@@ -5,6 +5,9 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
+
+import org.springframework.stereotype.Service;   // ✅ THIS WAS MISSING
+
 @Service
 public class UserServiceImpl implements UserService {
 
