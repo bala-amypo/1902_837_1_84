@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/service-entries")
-@Tag(name = "Service Entry CRUD")
+@Tag(name = "ServiceEntry")
 public class ServiceEntryController {
 
     private final ServiceEntryService serviceEntryService;

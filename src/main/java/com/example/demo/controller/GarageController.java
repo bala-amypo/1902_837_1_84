@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/garages")
-@Tag(name = "Garage CRUD")
+@Tag(name = "Garage")
 public class GarageController {
 
     private final GarageService garageService;
