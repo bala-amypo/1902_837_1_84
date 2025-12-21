@@ -23,6 +23,10 @@ public class Garage {
     @Column(nullable = false)
     private Boolean active;
 
+    @Column
+private String contactNumber;
+
+
     @OneToMany(
         mappedBy = "garage",
         cascade = CascadeType.ALL,
@@ -48,5 +52,13 @@ public String getContactNumber() { return contactNumber; }
 public Boolean getActive() { return active; }
 
 public void setActive(Boolean active) { this.active = active; }
+public void setAddress(String address) {
+    this.address = address;
+}
+
+public void setContactNumber(String contactNumber) {
+    this.contactNumber = contactNumber;
+}
+
 
 }

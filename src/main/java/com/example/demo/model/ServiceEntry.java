@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
