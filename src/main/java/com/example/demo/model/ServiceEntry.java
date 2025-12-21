@@ -1,9 +1,9 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "service_entries")
@@ -13,90 +13,48 @@ public class ServiceEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "vehicle_id",
-        nullable = false,
-        foreignKey = @ForeignKey(name = "fk_service_vehicle")
-    )
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "garage_id",
-        nullable = false,
-        foreignKey = @ForeignKey(name = "fk_service_garage")
-    )
+    @ManyToOne
+    @JoinColumn(name = "garage_id", nullable = false)
     private Garage garage;
 
-    @Column(nullable = false)
     private String serviceType;
 
-    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date serviceDate;
+    private LocalDate serviceDate;
 
     @Column(nullable = false)
     private Integer odometerReading;
 
-    @OneToMany(
-        mappedBy = "serviceEntry",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
-    )
+    private String description;
+
+    private Timestamp recordedAt = new Timestamp(System.currentTimeMillis());
+
+    @OneToMany(mappedBy = "serviceEntry", fetch = FetchType.LAZY)
     private List<ServicePart> serviceParts;
 
-    @Column(nullable = false)
-    private Timestamp recordedAt;
+    public ServiceEntry() {}
 
-    public ServiceEntry() {
-        this.recordedAt = new Timestamp(System.currentTimeMillis());
-    }
+    // GETTERS
+    public Long getId() { return id; }
+    public Vehicle getVehicle() { return vehicle; }
+    public Garage getGarage() { return garage; }
+    public String getServiceType() { return serviceType; }
+    public LocalDate getServiceDate() { return serviceDate; }
+    public Integer getOdometerReading() { return odometerReading; }
+    public String getDescription() { return description; }
+    public Timestamp getRecordedAt() { return recordedAt; }
 
-    public ServiceEntry(
-            Vehicle vehicle,
-            Garage garage,
-            String serviceType,
-            Date serviceDate,
-            Integer odometerReading
-    ) {
-        this.vehicle = vehicle;
-        this.garage = garage;
-        this.serviceType = serviceType;
-        this.serviceDate = serviceDate;
-        this.odometerReading = odometerReading;
-        this.recordedAt = new Timestamp(System.currentTimeMillis());
-    }
-
-    
-
-    public Long getId() {
-        return id;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public Garage getGarage() {
-        return garage;
-    }
-
-    public Date getServiceDate() {
-        return serviceDate;
-    }
-
-    public Integer getOdometerReading() {
-        return odometerReading;
-    }
-
-   
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public void setGarage(Garage garage) {
-        this.garage = garage;
-    }
+    // SETTERS
+    public void setId(Long id) { this.id = id; }
+    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
+    public void setGarage(Garage garage) { this.garage = garage; }
+    public void setServiceType(String serviceType) { this.serviceType = serviceType; }
+    public void setServiceDate(LocalDate serviceDate) { this.serviceDate = serviceDate; }
+    public void setOdometerReading(Integer odometerReading) { this.odometerReading = odometerReading; }
+    public void setDescription(String description) { this.description = description; }
+    public void setRecordedAt(Timestamp recordedAt) { this.recordedAt = recordedAt; }
 }
