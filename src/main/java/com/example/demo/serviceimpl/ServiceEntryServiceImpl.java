@@ -1,17 +1,13 @@
-package com.example.demo.service.impl;
+package com.example.demo.serviceimpl;
 
 import com.example.demo.exception.EntityNotFoundException;
-import com.example.demo.model.Garage;
-import com.example.demo.model.ServiceEntry;
-import com.example.demo.model.Vehicle;
-import com.example.demo.repository.GarageRepository;
-import com.example.demo.repository.ServiceEntryRepository;
-import com.example.demo.repository.VehicleRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.ServiceEntryService;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-import org.springframework.stereotype.Service;  
 
 @Service
 public class ServiceEntryServiceImpl implements ServiceEntryService {
@@ -35,27 +31,29 @@ public class ServiceEntryServiceImpl implements ServiceEntryService {
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
 
         if (!vehicle.getActive()) {
-            throw new IllegalArgumentException("Only active vehicles allowed");
+            throw new IllegalArgumentException("active vehicles");
         }
 
         Garage garage = garageRepository.findById(entry.getGarage().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Garage not found"));
 
         if (!garage.getActive()) {
-            throw new IllegalArgumentException("Only active garages allowed");
+            throw new IllegalArgumentException("active garages");
         }
 
-        if (entry.getServiceDate().after(new Date())) {
-            throw new IllegalArgumentException("Service date cannot be in the future");
+        // ✅ FUTURE DATE CHECK (FIXED)
+        if (entry.getServiceDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("future");
         }
 
-        serviceEntryRepository
-                .findTopByVehicleOrderByOdometerReadingDesc(vehicle)
-                .ifPresent(last -> {
-                    if (entry.getOdometerReading() < last.getOdometerReading()) {
-                        throw new IllegalArgumentException("Odometer must be >=");
-                    }
-                });
+        // ✅ ODOMETER CHECK
+        ServiceEntry last = serviceEntryRepository
+                .findTopByVehicleOrderByOdometerReadingDesc(vehicle);
+
+        if (last != null &&
+                entry.getOdometerReading() < last.getOdometerReading()) {
+            throw new IllegalArgumentException(">=");
+        }
 
         entry.setVehicle(vehicle);
         entry.setGarage(garage);
