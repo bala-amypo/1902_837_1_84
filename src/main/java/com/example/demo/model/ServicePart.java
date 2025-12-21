@@ -33,4 +33,6 @@ public class ServicePart {
     }
 
     // Getters & Setters
+    public Integer getQuantity() { return quantity; }
+
 }

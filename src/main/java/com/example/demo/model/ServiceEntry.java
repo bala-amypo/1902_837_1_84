@@ -56,5 +56,16 @@ public class ServiceEntry {
     }
 
     // Getters & Setters
-    
+    public Vehicle getVehicle() { return vehicle; }
+
+public Garage getGarage() { return garage; }
+
+public Date getServiceDate() { return serviceDate; }
+
+public Integer getOdometerReading() { return odometerReading; }
+
+public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
+
+public void setGarage(Garage garage) { this.garage = garage; }
+
 }
