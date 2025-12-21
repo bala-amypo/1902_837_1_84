@@ -6,6 +6,8 @@ import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
 
 import java.util.List;
+import org.springframework.stereotype.Service;  
+
 @Service
 public class VehicleServiceImpl implements VehicleService {
 

@@ -12,6 +12,7 @@ import com.example.demo.service.ServiceEntryService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;  
+
 @Service
 public class ServiceEntryServiceImpl implements ServiceEntryService {
 
