@@ -4,7 +4,7 @@
 // import java.time.LocalDateTime;
 
 // @Entity
-// @Table(name = "verification_logs")
+//  @Table(name = "verification_logs")
 // public class VerificationLog {
 
 //     @Id
@@ -39,4 +39,3 @@
 //     public void setCreatedAt(LocalDateTime createdAt) {
 //         this.createdAt = createdAt;
 //     }
-}
