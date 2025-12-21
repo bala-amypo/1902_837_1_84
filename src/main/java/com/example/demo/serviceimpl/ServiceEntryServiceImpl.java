@@ -1,14 +1,10 @@
-package com.example.demo.serviceimpl;
+package com.example.demo.service.impl;
 
-import com.example.demo.exception.EntityNotFoundException;
-import com.example.demo.model.Garage;
 import com.example.demo.model.ServiceEntry;
-import com.example.demo.model.Vehicle;
 import com.example.demo.repository.ServiceEntryRepository;
 import com.example.demo.service.ServiceEntryService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,39 +17,28 @@ public class ServiceEntryServiceImpl implements ServiceEntryService {
     }
 
     @Override
-    public ServiceEntry addService(ServiceEntry entry) {
-
-        Vehicle vehicle = entry.getVehicle();
-        if (vehicle == null || !Boolean.TRUE.equals(vehicle.getActive())) {
-            throw new IllegalArgumentException("Vehicle is inactive or missing");
-        }
-
-        Garage garage = entry.getGarage();
-        if (garage == null || !Boolean.TRUE.equals(garage.getActive())) {
-            throw new IllegalArgumentException("Garage is inactive or missing");
-        }
-
-        // 🔧 FIX: LocalDate comparison
-        if (entry.getServiceDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Service date cannot be in the future");
-        }
-
-        List<ServiceEntry> history =
-                serviceEntryRepository.findByVehicleId(vehicle.getId());
-
-        if (!history.isEmpty()) {
-            ServiceEntry last = history.get(history.size() - 1);
-            if (entry.getOdometerReading() < last.getOdometerReading()) {
-                throw new IllegalArgumentException("Odometer reading must be increasing");
-            }
-        }
-
+    public ServiceEntry createServiceEntry(ServiceEntry entry) {
         return serviceEntryRepository.save(entry);
     }
 
     @Override
-    public ServiceEntry getById(Long id) {
-        return serviceEntryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Service entry not found"));
+    public List<ServiceEntry> getAllServiceEntries() {
+        return serviceEntryRepository.findAll();
+    }
+
+    @Override
+    public ServiceEntry getServiceEntryById(Long id) {
+        return serviceEntryRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public ServiceEntry updateServiceEntry(Long id, ServiceEntry entry) {
+        entry.setId(id);
+        return serviceEntryRepository.save(entry);
+    }
+
+    @Override
+    public void deleteServiceEntry(Long id) {
+        serviceEntryRepository.deleteById(id);
     }
 }

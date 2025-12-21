@@ -1,14 +1,14 @@
-package com.example.demo.service;
+// package com.example.demo.service;
 
-import com.example.demo.model.VerificationLog;
+// import com.example.demo.model.VerificationLog;
 
-import java.util.List;
+// import java.util.List;
 
-public interface VerificationLogService {
+// public interface VerificationLogService {
 
-    VerificationLog createLog(VerificationLog log);
+//     VerificationLog createLog(VerificationLog log);
 
-    VerificationLog getLogById(Long id);
+//     VerificationLog getLogById(Long id);
 
-    List<VerificationLog> getLogsForEntry(Long entryId);
-}
+//     List<VerificationLog> getLogsForEntry(Long entryId);
+// }
