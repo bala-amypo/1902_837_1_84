@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/service-parts")
-@Tag(name = "Service Parts")
+@Tag(name = "Service Part CRUD")
 public class ServicePartController {
 
     private final ServicePartService servicePartService;
@@ -19,17 +19,28 @@ public class ServicePartController {
     }
 
     @PostMapping
-    public ServicePart createPart(@RequestBody ServicePart part) {
-        return servicePartService.createPart(part);
+    public ServicePart createServicePart(@RequestBody ServicePart part) {
+        return servicePartService.createServicePart(part);
+    }
+
+    @GetMapping
+    public List<ServicePart> getAllServiceParts() {
+        return servicePartService.getAllServiceParts();
     }
 
     @GetMapping("/{id}")
-    public ServicePart getPartById(@PathVariable Long id) {
-        return servicePartService.getPartById(id);
+    public ServicePart getServicePartById(@PathVariable Long id) {
+        return servicePartService.getServicePartById(id);
     }
 
-    @GetMapping("/entry/{entryId}")
-    public List<ServicePart> getPartsForEntry(@PathVariable Long entryId) {
-        return servicePartService.getPartsForEntry(entryId);
+    @PutMapping("/{id}")
+    public ServicePart updateServicePart(@PathVariable Long id,
+                                         @RequestBody ServicePart part) {
+        return servicePartService.updateServicePart(id, part);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteServicePart(@PathVariable Long id) {
+        servicePartService.deleteServicePart(id);
     }
 }

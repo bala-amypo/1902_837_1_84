@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/service-entries")
-@Tag(name = "Service Entries")
+@Tag(name = "Service Entry CRUD")
 public class ServiceEntryController {
 
     private final ServiceEntryService serviceEntryService;
@@ -23,18 +23,24 @@ public class ServiceEntryController {
         return serviceEntryService.createServiceEntry(entry);
     }
 
+    @GetMapping
+    public List<ServiceEntry> getAllServiceEntries() {
+        return serviceEntryService.getAllServiceEntries();
+    }
+
     @GetMapping("/{id}")
-    public ServiceEntry getEntryById(@PathVariable Long id) {
+    public ServiceEntry getServiceEntryById(@PathVariable Long id) {
         return serviceEntryService.getServiceEntryById(id);
     }
 
-    @GetMapping("/vehicle/{vehicleId}")
-    public List<ServiceEntry> getEntriesForVehicle(@PathVariable Long vehicleId) {
-        return serviceEntryService.getEntriesForVehicle(vehicleId);
+    @PutMapping("/{id}")
+    public ServiceEntry updateServiceEntry(@PathVariable Long id,
+                                           @RequestBody ServiceEntry entry) {
+        return serviceEntryService.updateServiceEntry(id, entry);
     }
 
-    @GetMapping("/garage/{garageId}")
-    public List<ServiceEntry> getEntriesByGarage(@PathVariable Long garageId) {
-        return serviceEntryService.getEntriesByGarage(garageId);
+    @DeleteMapping("/{id}")
+    public void deleteServiceEntry(@PathVariable Long id) {
+        serviceEntryService.deleteServiceEntry(id);
     }
 }

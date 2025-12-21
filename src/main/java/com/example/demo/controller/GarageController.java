@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/garages")
-@Tag(name = "Garages")
+@Tag(name = "Garage CRUD")
 public class GarageController {
 
     private final GarageService garageService;
@@ -23,10 +23,9 @@ public class GarageController {
         return garageService.createGarage(garage);
     }
 
-    @PutMapping("/{id}")
-    public Garage updateGarage(@PathVariable Long id,
-                               @RequestBody Garage garage) {
-        return garageService.updateGarage(id, garage);
+    @GetMapping
+    public List<Garage> getAllGarages() {
+        return garageService.getAllGarages();
     }
 
     @GetMapping("/{id}")
@@ -34,13 +33,14 @@ public class GarageController {
         return garageService.getGarageById(id);
     }
 
-    @GetMapping
-    public List<Garage> getAllGarages() {
-        return garageService.getAllGarages();
+    @PutMapping("/{id}")
+    public Garage updateGarage(@PathVariable Long id,
+                               @RequestBody Garage garage) {
+        return garageService.updateGarage(id, garage);
     }
 
-    @PutMapping("/{id}/deactivate")
-    public void deactivateGarage(@PathVariable Long id) {
-        garageService.deactivateGarage(id);
+    @DeleteMapping("/{id}")
+    public void deleteGarage(@PathVariable Long id) {
+        garageService.deleteGarage(id);
     }
 }
