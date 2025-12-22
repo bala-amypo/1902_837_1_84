@@ -11,10 +11,12 @@ public class Vehicle {
 
     private String make;
     private String model;
-    private int year; // add this field
+    private int year;
     private String vin;
 
-    // getters and setters
+    private boolean active; // <-- Add this
+
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -29,4 +31,7 @@ public class Vehicle {
 
     public String getVin() { return vin; }
     public void setVin(String vin) { this.vin = vin; }
+
+    public boolean isActive() { return active; } // getter
+    public void setActive(boolean active) { this.active = active; } // setter
 }
