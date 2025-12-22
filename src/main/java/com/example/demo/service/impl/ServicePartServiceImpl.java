@@ -1,22 +1,48 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ServicePart;
-import com.example.demo.repository.ServiceEntryRepository;
 import com.example.demo.repository.ServicePartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.ServicePartService;
 import org.springframework.stereotype.Service;
 
-@Service
-public class ServicePartServiceImpl {
+import java.util.List;
+import java.util.Optional;
 
-    @Autowired private ServiceEntryRepository serviceEntryRepository;
-    @Autowired private ServicePartRepository servicePartRepository;
+@Service // <--- This is crucial for Spring to detect it
+public class ServicePartServiceImpl implements ServicePartService {
 
-    public ServicePart createPart(ServicePart p) {
-        if (p.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be positive");
-        }
-        serviceEntryRepository.findById(p.getServiceEntry().getId()).orElseThrow();
-        return servicePartRepository.save(p);
+    private final ServicePartRepository servicePartRepository;
+
+    public ServicePartServiceImpl(ServicePartRepository servicePartRepository) {
+        this.servicePartRepository = servicePartRepository;
+    }
+
+    @Override
+    public ServicePart createServicePart(ServicePart part) {
+        return servicePartRepository.save(part);
+    }
+
+    @Override
+    public List<ServicePart> getAllServiceParts() {
+        return servicePartRepository.findAll();
+    }
+
+    @Override
+    public Optional<ServicePart> getServicePartById(Long id) {
+        return servicePartRepository.findById(id);
+    }
+
+    @Override
+    public ServicePart updateServicePart(Long id, ServicePart updatedPart) {
+        ServicePart existing = servicePartRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service Part not found"));
+        existing.setName(updatedPart.getName());
+        existing.setPrice(updatedPart.getPrice());
+        return servicePartRepository.save(existing);
+    }
+
+    @Override
+    public void deleteServicePart(Long id) {
+        servicePartRepository.deleteById(id);
     }
 }
