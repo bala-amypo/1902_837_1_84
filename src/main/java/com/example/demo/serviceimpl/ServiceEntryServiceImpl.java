@@ -1,14 +1,4 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.model.ServiceEntry;
-import com.example.demo.repository.ServiceEntryRepository;
-import com.example.demo.service.ServiceEntryService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-
-@Service   // 🔥 REQUIRED
+@Service
 public class ServiceEntryServiceImpl implements ServiceEntryService {
 
     private final ServiceEntryRepository serviceEntryRepository;
@@ -40,5 +30,10 @@ public class ServiceEntryServiceImpl implements ServiceEntryService {
     @Override
     public void deleteServiceEntry(Long id) {
         serviceEntryRepository.deleteById(id);
+    }
+
+    // ✅ REQUIRED BY TEST CASE
+    public List<ServiceEntry> getEntriesForVehicle(long vehicleId) {
+        return serviceEntryRepository.findByVehicleId(vehicleId);
     }
 }
