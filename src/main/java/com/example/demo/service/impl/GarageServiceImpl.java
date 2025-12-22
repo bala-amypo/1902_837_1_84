@@ -6,7 +6,6 @@ import com.example.demo.service.GarageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GarageServiceImpl implements GarageService {
@@ -17,14 +16,13 @@ public class GarageServiceImpl implements GarageService {
         this.garageRepository = garageRepository;
     }
 
-    // ✅ REQUIRED BY TEST CASE
-    public Garage createGarage(Garage garage) {
-        return garageRepository.save(garage);
-    }
-
-    // Existing methods (keep them)
     @Override
-    public Garage saveGarage(Garage garage) {
+    public Garage createGarage(Garage garage) {
+
+        if (garageRepository.existsByName(garage.getName())) {
+            throw new IllegalArgumentException("Garage with this name already exists");
+        }
+
         return garageRepository.save(garage);
     }
 
@@ -34,13 +32,17 @@ public class GarageServiceImpl implements GarageService {
     }
 
     @Override
-    public Optional<Garage> getGarageById(Long id) {
-        return garageRepository.findById(id);
+    public Garage getGarageById(Long id) {
+        return garageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Garage not found"));
     }
 
     @Override
-    public Garage updateGarage(Long id, Garage garage) {
-        return garageRepository.save(garage);
+    public Garage updateGarage(Long id, Garage updatedGarage) {
+        Garage existing = getGarageById(id);
+        existing.setName(updatedGarage.getName());
+        existing.setLocation(updatedGarage.getLocation());
+        return garageRepository.save(existing);
     }
 
     @Override
