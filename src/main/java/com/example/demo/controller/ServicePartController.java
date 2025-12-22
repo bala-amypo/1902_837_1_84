@@ -2,14 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ServicePart;
 import com.example.demo.service.ServicePartService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/service-parts")
-@Tag(name = "ServicePart")
+@RequestMapping("/service-parts")
 public class ServicePartController {
 
     private final ServicePartService servicePartService;
@@ -19,56 +18,32 @@ public class ServicePartController {
     }
 
     @PostMapping
-    public ServicePart createServicePart(@RequestBody ServicePart part) {
-        return servicePartService.createServicePart(part);
+    public ResponseEntity<ServicePart> createServicePart(@RequestBody ServicePart part) {
+        ServicePart savedPart = servicePartService.saveServicePart(part);
+        return ResponseEntity.ok(savedPart);
     }
 
     @GetMapping
-    public List<ServicePart> getAllServiceParts() {
-        return servicePartService.getAllServiceParts();
-    }
-// Controller example
-@Service
-public class ServicePartController {
-    private final ServicePartService servicePartService;
-
-    public ServicePartController(ServicePartService servicePartService) {
-        this.servicePartService = servicePartService;
+    public ResponseEntity<List<ServicePart>> getAllServiceParts() {
+        return ResponseEntity.ok(servicePartService.getAllServiceParts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServicePart> getServicePart(@PathVariable Long id) {
+    public ResponseEntity<ServicePart> getServicePartById(@PathVariable Long id) {
         ServicePart part = servicePartService.getServicePartById(id)
                 .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
         return ResponseEntity.ok(part);
     }
-}
-
 
     @PutMapping("/{id}")
-    public ServicePart updateServicePart(@PathVariable Long id,
-                                         @RequestBody ServicePart part) {
-        return servicePartService.updateServicePart(id, part);
+    public ResponseEntity<ServicePart> updateServicePart(@PathVariable Long id, @RequestBody ServicePart updatedPart) {
+        ServicePart part = servicePartService.updateServicePart(id, updatedPart);
+        return ResponseEntity.ok(part);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteServicePart(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteServicePart(@PathVariable Long id) {
         servicePartService.deleteServicePart(id);
-    }
-}
-// Controller example
-@Service
-public class ServicePartController {
-    private final ServicePartService servicePartService;
-
-    public ServicePartController(ServicePartService servicePartService) {
-        this.servicePartService = servicePartService;
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ServicePart> getServicePart(@PathVariable Long id) {
-        ServicePart part = servicePartService.getServicePartById(id)
-                .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
-        return ResponseEntity.ok(part);
+        return ResponseEntity.noContent().build();
     }
 }

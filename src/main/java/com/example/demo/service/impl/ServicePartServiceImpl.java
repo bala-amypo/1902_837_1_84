@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service // <--- This is crucial for Spring to detect it
+@Service
 public class ServicePartServiceImpl implements ServicePartService {
 
     private final ServicePartRepository servicePartRepository;
@@ -18,7 +18,7 @@ public class ServicePartServiceImpl implements ServicePartService {
     }
 
     @Override
-    public ServicePart createServicePart(ServicePart part) {
+    public ServicePart saveServicePart(ServicePart part) {
         return servicePartRepository.save(part);
     }
 
@@ -34,11 +34,13 @@ public class ServicePartServiceImpl implements ServicePartService {
 
     @Override
     public ServicePart updateServicePart(Long id, ServicePart updatedPart) {
-        ServicePart existing = servicePartRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Service Part not found"));
-        existing.setName(updatedPart.getName());
-        existing.setPrice(updatedPart.getPrice());
-        return servicePartRepository.save(existing);
+        ServicePart existingPart = servicePartRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
+
+        existingPart.setName(updatedPart.getName());
+        existingPart.setPrice(updatedPart.getPrice());
+
+        return servicePartRepository.save(existingPart);
     }
 
     @Override
