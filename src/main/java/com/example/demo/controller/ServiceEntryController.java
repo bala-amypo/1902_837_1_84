@@ -2,14 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ServiceEntry;
 import com.example.demo.service.ServiceEntryService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/service-entries")
-@Tag(name = "ServiceEntry")
+@RequestMapping("/service-entries")
 public class ServiceEntryController {
 
     private final ServiceEntryService serviceEntryService;
@@ -18,32 +17,54 @@ public class ServiceEntryController {
         this.serviceEntryService = serviceEntryService;
     }
 
+    // CREATE service entry
     @PostMapping
-    public ServiceEntry createServiceEntry(@RequestBody ServiceEntry entry) {
-        return serviceEntryService.createServiceEntry(entry);
+    public ResponseEntity<ServiceEntry> createServiceEntry(
+            @RequestBody ServiceEntry serviceEntry) {
+
+        ServiceEntry created = serviceEntryService.createServiceEntry(serviceEntry);
+        return ResponseEntity.ok(created);
     }
 
+    // GET all service entries
     @GetMapping
-    public List<ServiceEntry> getAllServiceEntries() {
-        return serviceEntryService.getAllServiceEntries();
+    public ResponseEntity<List<ServiceEntry>> getAllServiceEntries() {
+        return ResponseEntity.ok(serviceEntryService.getAllServiceEntries());
     }
 
+    // GET service entry by ID
     @GetMapping("/{id}")
-public ServiceEntry getServiceEntry(@PathVariable Long id) {
-    return serviceEntryService
-            .getServiceEntryById(id)
-            .orElseThrow(() -> new RuntimeException("ServiceEntry not found with id: " + id));
-}
-
-
-    @PutMapping("/{id}")
-    public ServiceEntry updateServiceEntry(@PathVariable Long id,
-                                           @RequestBody ServiceEntry entry) {
-        return serviceEntryService.updateServiceEntry(id, entry);
+    public ResponseEntity<ServiceEntry> getServiceEntryById(@PathVariable Long id) {
+        ServiceEntry serviceEntry = serviceEntryService.getServiceEntryById(id);
+        return ResponseEntity.ok(serviceEntry);
     }
 
+    // GET service entries by vehicle ID
+    @GetMapping("/vehicle/{vehicleId}")
+    public ResponseEntity<List<ServiceEntry>> getEntriesByVehicle(
+            @PathVariable long vehicleId) {
+
+        return ResponseEntity.ok(
+                serviceEntryService.getEntriesForVehicle(vehicleId)
+        );
+    }
+
+    // UPDATE service entry
+    @PutMapping("/{id}")
+    public ResponseEntity<ServiceEntry> updateServiceEntry(
+            @PathVariable Long id,
+            @RequestBody ServiceEntry serviceEntry) {
+
+        ServiceEntry updated =
+                serviceEntryService.updateServiceEntry(id, serviceEntry);
+
+        return ResponseEntity.ok(updated);
+    }
+
+    // DELETE service entry
     @DeleteMapping("/{id}")
-    public void deleteServiceEntry(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteServiceEntry(@PathVariable Long id) {
         serviceEntryService.deleteServiceEntry(id);
+        return ResponseEntity.noContent().build();
     }
 }
