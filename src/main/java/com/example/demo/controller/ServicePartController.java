@@ -27,11 +27,23 @@ public class ServicePartController {
     public List<ServicePart> getAllServiceParts() {
         return servicePartService.getAllServiceParts();
     }
+// Controller example
+@Service
+public class ServicePartController {
+    private final ServicePartService servicePartService;
+
+    public ServicePartController(ServicePartService servicePartService) {
+        this.servicePartService = servicePartService;
+    }
 
     @GetMapping("/{id}")
-    public ServicePart getServicePartById(@PathVariable Long id) {
-        return servicePartService.getServicePartById(id);
+    public ResponseEntity<ServicePart> getServicePart(@PathVariable Long id) {
+        ServicePart part = servicePartService.getServicePartById(id)
+                .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
+        return ResponseEntity.ok(part);
     }
+}
+
 
     @PutMapping("/{id}")
     public ServicePart updateServicePart(@PathVariable Long id,
@@ -42,5 +54,21 @@ public class ServicePartController {
     @DeleteMapping("/{id}")
     public void deleteServicePart(@PathVariable Long id) {
         servicePartService.deleteServicePart(id);
+    }
+}
+// Controller example
+@Service
+public class ServicePartController {
+    private final ServicePartService servicePartService;
+
+    public ServicePartController(ServicePartService servicePartService) {
+        this.servicePartService = servicePartService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ServicePart> getServicePart(@PathVariable Long id) {
+        ServicePart part = servicePartService.getServicePartById(id)
+                .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
+        return ResponseEntity.ok(part);
     }
 }
