@@ -1,41 +1,44 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.model.ServiceEntry;
+import com.example.demo.repository.ServiceEntryRepository;
+import com.example.demo.service.ServiceEntryService;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
+
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class ServiceEntryServiceImpl {
+@Service   // 🔥 REQUIRED
+public class ServiceEntryServiceImpl implements ServiceEntryService {
 
-    @Autowired private VehicleRepository vehicleRepository;
-    @Autowired private GarageRepository garageRepository;
-    @Autowired private ServiceEntryRepository serviceEntryRepository;
+    private final ServiceEntryRepository serviceEntryRepository;
 
-    public ServiceEntry createServiceEntry(ServiceEntry e) {
-
-        Vehicle v = vehicleRepository.findById(e.getVehicle().getId()).orElseThrow();
-        Garage g = garageRepository.findById(e.getGarage().getId()).orElseThrow();
-
-        if (!v.getActive())
-            throw new IllegalArgumentException("Only active vehicles allowed");
-
-        if (e.getServiceDate().isAfter(LocalDate.now()))
-            throw new IllegalArgumentException("Service date cannot be future");
-
-        serviceEntryRepository.findTopByVehicleOrderByOdometerReadingDesc(v)
-                .ifPresent(last -> {
-                    if (e.getOdometerReading() < last.getOdometerReading()) {
-                        throw new IllegalArgumentException("Odometer must be >=");
-                    }
-                });
-
-        return serviceEntryRepository.save(e);
+    public ServiceEntryServiceImpl(ServiceEntryRepository serviceEntryRepository) {
+        this.serviceEntryRepository = serviceEntryRepository;
     }
 
-    public List<ServiceEntry> getEntriesForVehicle(Long vehicleId) {
-        return serviceEntryRepository.findByVehicleId(vehicleId);
+    @Override
+    public ServiceEntry createServiceEntry(ServiceEntry serviceEntry) {
+        return serviceEntryRepository.save(serviceEntry);
+    }
+
+    @Override
+    public List<ServiceEntry> getAllServiceEntries() {
+        return serviceEntryRepository.findAll();
+    }
+
+    @Override
+    public Optional<ServiceEntry> getServiceEntryById(Long id) {
+        return serviceEntryRepository.findById(id);
+    }
+
+    @Override
+    public ServiceEntry updateServiceEntry(Long id, ServiceEntry serviceEntry) {
+        return serviceEntryRepository.save(serviceEntry);
+    }
+
+    @Override
+    public void deleteServiceEntry(Long id) {
+        serviceEntryRepository.deleteById(id);
     }
 }
