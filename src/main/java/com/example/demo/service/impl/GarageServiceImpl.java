@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service  
+@Service
 public class GarageServiceImpl implements GarageService {
 
     private final GarageRepository garageRepository;
@@ -17,6 +17,12 @@ public class GarageServiceImpl implements GarageService {
         this.garageRepository = garageRepository;
     }
 
+    // ✅ REQUIRED BY TEST CASE
+    public Garage createGarage(Garage garage) {
+        return garageRepository.save(garage);
+    }
+
+    // Existing methods (keep them)
     @Override
     public Garage saveGarage(Garage garage) {
         return garageRepository.save(garage);
