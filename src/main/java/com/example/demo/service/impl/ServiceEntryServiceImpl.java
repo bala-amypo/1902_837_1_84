@@ -64,13 +64,34 @@ public class ServiceEntryServiceImpl implements ServiceEntryService {
     }
 
     @Override
+    public ServiceEntry getServiceEntryById(Long id) {
+        return serviceEntryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("ServiceEntry not found"));
+    }
+
+    @Override
     public List<ServiceEntry> getEntriesForVehicle(long vehicleId) {
         return serviceEntryRepository.findByVehicleId(vehicleId);
     }
 
     @Override
-    public ServiceEntry getServiceEntryById(long id) {
-        return serviceEntryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ServiceEntry not found"));
+    public List<ServiceEntry> getAllServiceEntries() {
+        return serviceEntryRepository.findAll();
+    }
+
+    @Override
+    public ServiceEntry updateServiceEntry(Long id, ServiceEntry updated) {
+        ServiceEntry existing = getServiceEntryById(id);
+
+        existing.setServiceType(updated.getServiceType());
+        existing.setServiceDate(updated.getServiceDate());
+        existing.setOdometerReading(updated.getOdometerReading());
+
+        return serviceEntryRepository.save(existing);
+    }
+
+    @Override
+    public void deleteServiceEntry(Long id) {
+        serviceEntryRepository.deleteById(id);
     }
 }

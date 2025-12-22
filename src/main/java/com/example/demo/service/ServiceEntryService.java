@@ -8,9 +8,13 @@ public interface ServiceEntryService {
 
     ServiceEntry createServiceEntry(ServiceEntry entry);
 
+    ServiceEntry getServiceEntryById(Long id);
+
     List<ServiceEntry> getEntriesForVehicle(long vehicleId);
 
-    ServiceEntry getServiceEntryById(Long id);
+    List<ServiceEntry> getAllServiceEntries();
+
+    ServiceEntry updateServiceEntry(Long id, ServiceEntry entry);
 
     void deleteServiceEntry(Long id);
 }
