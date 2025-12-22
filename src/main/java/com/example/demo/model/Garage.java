@@ -14,16 +14,16 @@ public class Garage {
 
     private String location;
 
-    // Default constructor
+    private boolean active = true; // <--- added field
+
     public Garage() {}
 
-    // Constructor
     public Garage(String name, String location) {
         this.name = name;
         this.location = location;
+        this.active = true;
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -32,4 +32,7 @@ public class Garage {
 
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
+
+    public boolean getActive() { return active; } // <--- getter
+    public void setActive(boolean active) { this.active = active; } // <--- setter
 }
