@@ -29,9 +29,12 @@ public class ServiceEntryController {
     }
 
     @GetMapping("/{id}")
-    public ServiceEntry getServiceEntryById(@PathVariable Long id) {
-        return serviceEntryService.getServiceEntryById(id);
-    }
+public ServiceEntry getServiceEntry(@PathVariable Long id) {
+    return serviceEntryService
+            .getServiceEntryById(id)
+            .orElseThrow(() -> new RuntimeException("ServiceEntry not found with id: " + id));
+}
+
 
     @PutMapping("/{id}")
     public ServiceEntry updateServiceEntry(@PathVariable Long id,
