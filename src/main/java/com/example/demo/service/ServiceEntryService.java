@@ -1,18 +1,16 @@
 package com.example.demo.service;
 
 import com.example.demo.model.ServiceEntry;
+
 import java.util.List;
-import java.util.Optional;
 
 public interface ServiceEntryService {
 
-    ServiceEntry createServiceEntry(ServiceEntry serviceEntry);
+    ServiceEntry createServiceEntry(ServiceEntry entry);
 
-    List<ServiceEntry> getAllServiceEntries();
+    List<ServiceEntry> getEntriesForVehicle(long vehicleId);
 
-    Optional<ServiceEntry> getServiceEntryById(Long id);
-
-    ServiceEntry updateServiceEntry(Long id, ServiceEntry serviceEntry);
+    ServiceEntry getServiceEntryById(Long id);
 
     void deleteServiceEntry(Long id);
 }
