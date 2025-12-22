@@ -1,9 +1,10 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-public class ServicePart {
+public class VerificationLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,8 +13,7 @@ public class ServicePart {
     @ManyToOne
     private ServiceEntry serviceEntry;
 
-    private String partName;
-    private Integer quantity;
+    private LocalDateTime verifiedAt;
 
     // getters & setters
     public Long getId() { return id; }
@@ -22,9 +22,6 @@ public class ServicePart {
     public ServiceEntry getServiceEntry() { return serviceEntry; }
     public void setServiceEntry(ServiceEntry serviceEntry) { this.serviceEntry = serviceEntry; }
 
-    public String getPartName() { return partName; }
-    public void setPartName(String partName) { this.partName = partName; }
-
-    public Integer getQuantity() { return quantity; }
-    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+    public LocalDateTime getVerifiedAt() { return verifiedAt; }
+    public void setVerifiedAt(LocalDateTime verifiedAt) { this.verifiedAt = verifiedAt; }
 }

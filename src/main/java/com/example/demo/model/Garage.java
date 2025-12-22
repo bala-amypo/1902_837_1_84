@@ -3,7 +3,6 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "garage")
 public class Garage {
 
     @Id
@@ -14,17 +13,10 @@ public class Garage {
     private String garageName;
 
     private String address;
-    private String contactNumber;
 
-    public Garage() {}
+    private Boolean active = true;
 
-    public Garage(Long id, String garageName, String address, String contactNumber) {
-        this.id = id;
-        this.garageName = garageName;
-        this.address = address;
-        this.contactNumber = contactNumber;
-    }
-
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -34,6 +26,6 @@ public class Garage {
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
 
-    public String getContactNumber() { return contactNumber; }
-    public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

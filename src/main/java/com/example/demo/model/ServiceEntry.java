@@ -1,10 +1,9 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "service_entry")
 public class ServiceEntry {
 
     @Id
@@ -12,23 +11,18 @@ public class ServiceEntry {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(name = "garage_id")
     private Garage garage;
 
     private String serviceType;
 
-    @Temporal(TemporalType.DATE)
-    private Date serviceDate;
+    private LocalDate serviceDate;
 
     private Integer odometerReading;
-    private String description;
 
-    public ServiceEntry() {}
-
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -41,12 +35,9 @@ public class ServiceEntry {
     public String getServiceType() { return serviceType; }
     public void setServiceType(String serviceType) { this.serviceType = serviceType; }
 
-    public Date getServiceDate() { return serviceDate; }
-    public void setServiceDate(Date serviceDate) { this.serviceDate = serviceDate; }
+    public LocalDate getServiceDate() { return serviceDate; }
+    public void setServiceDate(LocalDate serviceDate) { this.serviceDate = serviceDate; }
 
     public Integer getOdometerReading() { return odometerReading; }
     public void setOdometerReading(Integer odometerReading) { this.odometerReading = odometerReading; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
 }
