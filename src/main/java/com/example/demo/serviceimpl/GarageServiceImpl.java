@@ -2,43 +2,19 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Garage;
 import com.example.demo.repository.GarageRepository;
-import com.example.demo.service.GarageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class GarageServiceImpl implements GarageService {
+public class GarageServiceImpl {
 
-    private final GarageRepository garageRepository;
+    @Autowired
+    private GarageRepository garageRepository;
 
-    public GarageServiceImpl(GarageRepository garageRepository) {
-        this.garageRepository = garageRepository;
-    }
-
-    @Override
-    public Garage createGarage(Garage garage) {
-        return garageRepository.save(garage);
-    }
-
-    @Override
-    public List<Garage> getAllGarages() {
-        return garageRepository.findAll();
-    }
-
-    @Override
-    public Garage getGarageById(Long id) {
-        return garageRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public Garage updateGarage(Long id, Garage garage) {
-        garage.setId(id);
-        return garageRepository.save(garage);
-    }
-
-    @Override
-    public void deleteGarage(Long id) {
-        garageRepository.deleteById(id);
+    public Garage createGarage(Garage g) {
+        if (garageRepository.findByGarageName(g.getGarageName()).isPresent()) {
+            throw new IllegalArgumentException("Garage already exists");
+        }
+        return garageRepository.save(g);
     }
 }

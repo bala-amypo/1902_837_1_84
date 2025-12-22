@@ -2,43 +2,41 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
-import com.example.demo.service.VehicleService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-public class VehicleServiceImpl implements VehicleService {
+public class VehicleServiceImpl {
 
-    private final VehicleRepository vehicleRepository;
+    @Autowired
+    private VehicleRepository vehicleRepository;
 
-    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
-        this.vehicleRepository = vehicleRepository;
+    public Vehicle createVehicle(Vehicle v) {
+        if (vehicleRepository.findByVin(v.getVin()).isPresent()) {
+            throw new IllegalArgumentException("VIN already exists");
+        }
+        return vehicleRepository.save(v);
     }
 
-    @Override
-    public Vehicle createVehicle(Vehicle vehicle) {
-        return vehicleRepository.save(vehicle);
-    }
-
-    @Override
-    public List<Vehicle> getAllVehicles() {
-        return vehicleRepository.findAll();
-    }
-
-    @Override
     public Vehicle getVehicleById(Long id) {
-        return vehicleRepository.findById(id).orElse(null);
+        return vehicleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
     }
 
-    @Override
-    public Vehicle updateVehicle(Long id, Vehicle vehicle) {
-        vehicle.setId(id);
-        return vehicleRepository.save(vehicle);
+    public List<Vehicle> getVehiclesByOwner(Long ownerId) {
+        return vehicleRepository.findByOwnerId(ownerId);
     }
 
-    @Override
-    public void deleteVehicle(Long id) {
-        vehicleRepository.deleteById(id);
+    public void deactivateVehicle(Long id) {
+        Vehicle v = getVehicleById(id);
+        v.setActive(false);
+        vehicleRepository.save(v);
+    }
+
+    public Vehicle getVehicleByVin(String vin) {
+        return vehicleRepository.findByVin(vin)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
     }
 }
