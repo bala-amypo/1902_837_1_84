@@ -2,41 +2,49 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.VehicleService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class VehicleServiceImpl {
+public class VehicleServiceImpl implements VehicleService {
 
-    @Autowired
-    private VehicleRepository vehicleRepository;
+    private final VehicleRepository vehicleRepository;
 
-    public Vehicle createVehicle(Vehicle v) {
-        if (vehicleRepository.findByVin(v.getVin()).isPresent()) {
-            throw new IllegalArgumentException("VIN already exists");
-        }
-        return vehicleRepository.save(v);
+    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
     }
 
-    public Vehicle getVehicleById(Long id) {
-        return vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+    @Override
+    public Vehicle createVehicle(Vehicle vehicle) {
+        return vehicleRepository.save(vehicle);
     }
 
-    public List<Vehicle> getVehiclesByOwner(Long ownerId) {
-        return vehicleRepository.findByOwnerId(ownerId);
+    @Override
+    public List<Vehicle> getAllVehicles() {
+        return vehicleRepository.findAll();
     }
 
-    public void deactivateVehicle(Long id) {
-        Vehicle v = getVehicleById(id);
-        v.setActive(false);
-        vehicleRepository.save(v);
+    @Override
+    public Optional<Vehicle> getVehicleById(Long id) {
+        return vehicleRepository.findById(id);
     }
 
-    public Vehicle getVehicleByVin(String vin) {
-        return vehicleRepository.findByVin(vin)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+    @Override
+    public Vehicle updateVehicle(Long id, Vehicle updatedVehicle) {
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + id));
+        existingVehicle.setMake(updatedVehicle.getMake());
+        existingVehicle.setModel(updatedVehicle.getModel());
+        existingVehicle.setYear(updatedVehicle.getYear());
+        existingVehicle.setVin(updatedVehicle.getVin());
+        return vehicleRepository.save(existingVehicle);
+    }
+
+    @Override
+    public void deleteVehicle(Long id) {
+        vehicleRepository.deleteById(id);
     }
 }
