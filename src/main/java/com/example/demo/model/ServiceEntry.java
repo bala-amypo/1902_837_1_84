@@ -10,34 +10,26 @@ public class ServiceEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String description;
+    private LocalDate date;
+    private int odometerReading;
+
     @ManyToOne
     private Vehicle vehicle;
 
-    @ManyToOne
-    private Garage garage;
-
-    private String serviceType;
-
-    private LocalDate serviceDate;
-
-    private Integer odometerReading;
-
-    // getters & setters
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
+
+    public int getOdometerReading() { return odometerReading; }
+    public void setOdometerReading(int odometerReading) { this.odometerReading = odometerReading; }
+
     public Vehicle getVehicle() { return vehicle; }
     public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
-
-    public Garage getGarage() { return garage; }
-    public void setGarage(Garage garage) { this.garage = garage; }
-
-    public String getServiceType() { return serviceType; }
-    public void setServiceType(String serviceType) { this.serviceType = serviceType; }
-
-    public LocalDate getServiceDate() { return serviceDate; }
-    public void setServiceDate(LocalDate serviceDate) { this.serviceDate = serviceDate; }
-
-    public Integer getOdometerReading() { return odometerReading; }
-    public void setOdometerReading(Integer odometerReading) { this.odometerReading = odometerReading; }
 }
