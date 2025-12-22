@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Vehicle {
@@ -9,29 +10,34 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String make;
     private String model;
+    private String manufacturer;
     private int year;
-    private String vin;
+    private boolean active;
 
-    private boolean active; // <-- Add this
+    // Constructors
+    public Vehicle() {}
+    public Vehicle(Long id, String model, String manufacturer, int year, boolean active) {
+        this.id = id;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.year = year;
+        this.active = active;
+    }
 
-    // Getters and setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public String getMake() { return make; }
-    public void setMake(String make) { this.make = make; }
 
     public String getModel() { return model; }
     public void setModel(String model) { this.model = model; }
 
+    public String getManufacturer() { return manufacturer; }
+    public void setManufacturer(String manufacturer) { this.manufacturer = manufacturer; }
+
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
 
-    public String getVin() { return vin; }
-    public void setVin(String vin) { this.vin = vin; }
-
-    public boolean isActive() { return active; } // getter
-    public void setActive(boolean active) { this.active = active; } // setter
+    public boolean getActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

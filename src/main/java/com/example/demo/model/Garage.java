@@ -9,19 +9,16 @@ public class Garage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String name;
-
     private String location;
-
-    private boolean active = true; // <--- added field
+    private boolean active;
 
     public Garage() {}
-
-    public Garage(String name, String location) {
+    public Garage(Long id, String name, String location, boolean active) {
+        this.id = id;
         this.name = name;
         this.location = location;
-        this.active = true;
+        this.active = active;
     }
 
     public Long getId() { return id; }
@@ -33,6 +30,6 @@ public class Garage {
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
 
-    public boolean getActive() { return active; } // <--- getter
-    public void setActive(boolean active) { this.active = active; } // <--- setter
+    public boolean getActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
