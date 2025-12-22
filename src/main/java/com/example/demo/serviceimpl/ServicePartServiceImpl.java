@@ -1,44 +1,22 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ServicePart;
+import com.example.demo.repository.ServiceEntryRepository;
 import com.example.demo.repository.ServicePartRepository;
-import com.example.demo.service.ServicePartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class ServicePartServiceImpl implements ServicePartService {
+public class ServicePartServiceImpl {
 
-    private final ServicePartRepository servicePartRepository;
+    @Autowired private ServiceEntryRepository serviceEntryRepository;
+    @Autowired private ServicePartRepository servicePartRepository;
 
-    public ServicePartServiceImpl(ServicePartRepository servicePartRepository) {
-        this.servicePartRepository = servicePartRepository;
-    }
-
-    @Override
-    public ServicePart createServicePart(ServicePart part) {
-        return servicePartRepository.save(part);
-    }
-
-    @Override
-    public List<ServicePart> getAllServiceParts() {
-        return servicePartRepository.findAll();
-    }
-
-    @Override
-    public ServicePart getServicePartById(Long id) {
-        return servicePartRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public ServicePart updateServicePart(Long id, ServicePart part) {
-        part.setId(id);
-        return servicePartRepository.save(part);
-    }
-
-    @Override
-    public void deleteServicePart(Long id) {
-        servicePartRepository.deleteById(id);
+    public ServicePart createPart(ServicePart p) {
+        if (p.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+        serviceEntryRepository.findById(p.getServiceEntry().getId()).orElseThrow();
+        return servicePartRepository.save(p);
     }
 }
