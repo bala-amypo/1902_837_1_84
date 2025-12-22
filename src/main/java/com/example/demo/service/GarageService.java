@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Garage;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface GarageService {
 
-    Garage saveGarage(Garage garage);
+    Garage createGarage(Garage garage);
 
     List<Garage> getAllGarages();
 
