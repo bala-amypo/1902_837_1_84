@@ -17,11 +17,12 @@ public class ServicePartController {
         this.servicePartService = servicePartService;
     }
 
-    @PostMapping
-    public ResponseEntity<ServicePart> createServicePart(@RequestBody ServicePart part) {
-        ServicePart savedPart = servicePartService.saveServicePart(part);
-        return ResponseEntity.ok(savedPart);
-    }
+   @PostMapping
+public ResponseEntity<ServicePart> createServicePart(@RequestBody ServicePart part) {
+    ServicePart savedPart = servicePartService.createServicePart(part);
+    return ResponseEntity.ok(savedPart);
+}
+
 
     @GetMapping
     public ResponseEntity<List<ServicePart>> getAllServiceParts() {
@@ -47,3 +48,4 @@ public class ServicePartController {
         return ResponseEntity.noContent().build();
     }
 }
+

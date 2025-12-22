@@ -18,7 +18,7 @@ public class ServicePartServiceImpl implements ServicePartService {
     }
 
     @Override
-    public ServicePart saveServicePart(ServicePart part) {
+    public ServicePart createServicePart(ServicePart part) {
         return servicePartRepository.save(part);
     }
 
@@ -36,10 +36,8 @@ public class ServicePartServiceImpl implements ServicePartService {
     public ServicePart updateServicePart(Long id, ServicePart updatedPart) {
         ServicePart existingPart = servicePartRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
-
         existingPart.setName(updatedPart.getName());
         existingPart.setPrice(updatedPart.getPrice());
-
         return servicePartRepository.save(existingPart);
     }
 
