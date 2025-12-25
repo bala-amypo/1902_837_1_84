@@ -5,7 +5,6 @@ import com.example.demo.service.ServiceEntryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceEntryServiceImpl implements ServiceEntryService {
@@ -21,8 +20,13 @@ public class ServiceEntryServiceImpl implements ServiceEntryService {
     }
 
     @Override
-    public Optional<ServiceEntry> getServiceEntryById(Long id) {
-        return Optional.empty();
+    public ServiceEntry getServiceEntryById(Long id) {
+        return null;   // interface expects ServiceEntry, NOT Optional
+    }
+
+    @Override
+    public List<ServiceEntry> getEntriesForVehicle(Long vehicleId) {
+        return List.of();   // ✅ missing method added
     }
 
     @Override
