@@ -5,15 +5,14 @@ import com.example.demo.model.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ServiceEntryRepository extends JpaRepository<ServiceEntry, Long> {
-    Optional<ServiceEntry> getServiceEntryById(Long id);
 
-    List<ServiceEntry> getEntriesForVehicle(Vehicle vehicle);
+    // Spring Data JPA will create the query automatically
+    List<ServiceEntry> findByVehicle(Vehicle vehicle);
 
-    List<ServiceEntry> findByVerifiedAtBetween(LocalDate start, LocalDate end);
+    // Example: find entries between two dates
+    List<ServiceEntry> findByServiceDateBetween(java.time.LocalDate startDate, java.time.LocalDate endDate);
 }
