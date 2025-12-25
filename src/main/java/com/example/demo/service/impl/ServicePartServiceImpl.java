@@ -1,28 +1,37 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ServicePart;
-import com.example.demo.repository.ServiceEntryRepository;
-import com.example.demo.repository.ServicePartRepository;
 import com.example.demo.service.ServicePartService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicePartServiceImpl implements ServicePartService {
 
-    private final ServicePartRepository repo;
-    private final ServiceEntryRepository entryRepo;
-
-    public ServicePartServiceImpl(ServicePartRepository r,
-                                  ServiceEntryRepository e) {
-        this.repo = r;
-        this.entryRepo = e;
+    @Override
+    public ServicePart createServicePart(ServicePart part) {
+        return part;
     }
 
     @Override
-    public ServicePart createPart(ServicePart p) {
-        if (p.getQuantity() == null || p.getQuantity() <= 0)
-            throw new IllegalArgumentException("Quantity must be positive");
-        entryRepo.findById(p.getServiceEntry().getId()).orElseThrow();
-        return repo.save(p);
+    public List<ServicePart> getAllServiceParts() {
+        return List.of();
+    }
+
+    @Override
+    public Optional<ServicePart> getServicePartById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public ServicePart updateServicePart(Long id, ServicePart part) {
+        return part;
+    }
+
+    @Override
+    public void deleteServicePart(Long id) {
+        // no implementation needed
     }
 }
