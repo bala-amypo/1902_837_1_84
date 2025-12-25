@@ -9,27 +9,21 @@ public class Garage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String location;
-    private boolean active;
+    @Column(unique = true)
+    private String garageName;
 
-    public Garage() {}
-    public Garage(Long id, String name, String location, boolean active) {
-        this.id = id;
-        this.name = name;
-        this.location = location;
-        this.active = active;
-    }
+    private String address;
+    private Boolean active = true;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getGarageName() { return garageName; }
+    public void setGarageName(String garageName) { this.garageName = garageName; }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public boolean getActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

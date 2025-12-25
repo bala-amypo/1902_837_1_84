@@ -16,19 +16,9 @@ public class ServiceEntry {
     @ManyToOne
     private Garage garage;
 
-    private LocalDate date;
-    private String description;
-    private int odometerReading;
-
-    public ServiceEntry() {}
-    public ServiceEntry(Long id, Vehicle vehicle, Garage garage, LocalDate date, String description, int odometerReading) {
-        this.id = id;
-        this.vehicle = vehicle;
-        this.garage = garage;
-        this.date = date;
-        this.description = description;
-        this.odometerReading = odometerReading;
-    }
+    private String serviceType;
+    private LocalDate serviceDate;
+    private Integer odometerReading;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -39,12 +29,12 @@ public class ServiceEntry {
     public Garage getGarage() { return garage; }
     public void setGarage(Garage garage) { this.garage = garage; }
 
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
+    public String getServiceType() { return serviceType; }
+    public void setServiceType(String serviceType) { this.serviceType = serviceType; }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public LocalDate getServiceDate() { return serviceDate; }
+    public void setServiceDate(LocalDate serviceDate) { this.serviceDate = serviceDate; }
 
-    public int getOdometerReading() { return odometerReading; }
-    public void setOdometerReading(int odometerReading) { this.odometerReading = odometerReading; }
+    public Integer getOdometerReading() { return odometerReading; }
+    public void setOdometerReading(Integer odometerReading) { this.odometerReading = odometerReading; }
 }

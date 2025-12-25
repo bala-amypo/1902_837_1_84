@@ -9,22 +9,21 @@ public class ServicePart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private double price;
+    @ManyToOne
+    private ServiceEntry serviceEntry;
 
-    public ServicePart() {}
-    public ServicePart(Long id, String name, double price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
+    private String partName;
+    private Integer quantity;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public ServiceEntry getServiceEntry() { return serviceEntry; }
+    public void setServiceEntry(ServiceEntry serviceEntry) { this.serviceEntry = serviceEntry; }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public String getPartName() { return partName; }
+    public void setPartName(String partName) { this.partName = partName; }
+
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
 }
