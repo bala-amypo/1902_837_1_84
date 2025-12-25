@@ -8,48 +8,41 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
-public class ServiceEntryServiceImpl implements ServiceEntryService {
+public class ServiceEntryServiceImpl {
 
-    private final ServiceEntryRepository serviceEntryRepository;
+    @Autowired private VehicleRepository vehicleRepository;
+    @Autowired private GarageRepository garageRepository;
+    @Autowired private ServiceEntryRepository serviceEntryRepository;
 
-    public ServiceEntryServiceImpl(ServiceEntryRepository serviceEntryRepository) {
-        this.serviceEntryRepository = serviceEntryRepository;
+    public ServiceEntry createServiceEntry(ServiceEntry e) {
+
+        Vehicle v = vehicleRepository.findById(e.getVehicle().getId())
+                .orElseThrow();
+
+        Garage g = garageRepository.findById(e.getGarage().getId())
+                .orElseThrow();
+
+        if (!Boolean.TRUE.equals(v.getActive())) {
+            throw new IllegalArgumentException("Only active vehicles allowed");
+        }
+
+        if (e.getServiceDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Service date cannot be in future");
+        }
+
+        serviceEntryRepository.findTopByVehicleOrderByOdometerReadingDesc(v)
+                .ifPresent(last -> {
+                    if (e.getOdometerReading() < last.getOdometerReading()) {
+                        throw new IllegalArgumentException("Odometer must be >=");
+                    }
+                });
+
+        return serviceEntryRepository.save(e);
     }
 
-    @Override
-    public ServiceEntry createServiceEntry(ServiceEntry serviceEntry) {
-        return serviceEntryRepository.save(serviceEntry);
-    }
-
-    @Override
-    public List<ServiceEntry> getAllServiceEntries() {
-        return serviceEntryRepository.findAll();
-    }
-
-    @Override
-    public ServiceEntry getServiceEntryById(Long id) {
-        return serviceEntryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ServiceEntry not found with id " + id));
-    }
-
-    @Override
-    public ServiceEntry updateServiceEntry(Long id, ServiceEntry updatedEntry) {
-        ServiceEntry entry = getServiceEntryById(id);
-        entry.setDescription(updatedEntry.getDescription());
-        entry.setDate(updatedEntry.getDate());
-        entry.setOdometerReading(updatedEntry.getOdometerReading());
-        return serviceEntryRepository.save(entry);
-    }
-
-    @Override
-    public void deleteServiceEntry(Long id) {
-        serviceEntryRepository.deleteById(id);
-    }
-
-    @Override
     public List<ServiceEntry> getEntriesForVehicle(Long vehicleId) {
         return serviceEntryRepository.findByVehicleId(vehicleId);
     }
 }
+

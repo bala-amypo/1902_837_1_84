@@ -7,42 +7,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
-public class ServicePartServiceImpl implements ServicePartService {
+public class ServicePartServiceImpl {
 
-    private final ServicePartRepository servicePartRepository;
+    @Autowired
+    private ServiceEntryRepository serviceEntryRepository;
 
-    public ServicePartServiceImpl(ServicePartRepository servicePartRepository) {
-        this.servicePartRepository = servicePartRepository;
-    }
+    @Autowired
+    private ServicePartRepository servicePartRepository;
 
-    @Override
-    public ServicePart createServicePart(ServicePart part) {
-        return servicePartRepository.save(part);
-    }
+    public ServicePart createPart(ServicePart p) {
+        if (p.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
 
-    @Override
-    public List<ServicePart> getAllServiceParts() {
-        return servicePartRepository.findAll();
-    }
+        serviceEntryRepository.findById(p.getServiceEntry().getId())
+                .orElseThrow();
 
-    @Override
-    public Optional<ServicePart> getServicePartById(Long id) {
-        return servicePartRepository.findById(id);
-    }
-
-    @Override
-    public ServicePart updateServicePart(Long id, ServicePart updatedPart) {
-        ServicePart existingPart = servicePartRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Service Part not found with id: " + id));
-        existingPart.setName(updatedPart.getName());
-        existingPart.setPrice(updatedPart.getPrice());
-        return servicePartRepository.save(existingPart);
-    }
-
-    @Override
-    public void deleteServicePart(Long id) {
-        servicePartRepository.deleteById(id);
+        return servicePartRepository.save(p);
     }
 }
+
