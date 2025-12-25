@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.model.ServicePart;
 import com.example.demo.repository.ServiceEntryRepository;
 import com.example.demo.repository.ServicePartRepository;
-
+@Service
 public class ServicePartServiceImpl {
 
     private final ServicePartRepository repo;

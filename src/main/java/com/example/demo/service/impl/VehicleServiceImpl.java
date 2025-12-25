@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
 import jakarta.persistence.EntityNotFoundException;
-
+@Service
 public class VehicleServiceImpl {
 
     private final VehicleRepository repo;

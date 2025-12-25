@@ -4,7 +4,7 @@ import com.example.demo.model.VerificationLog;
 import com.example.demo.repository.*;
 
 import java.time.LocalDateTime;
-
+@Service
 public class VerificationLogServiceImpl {
 
     private final VerificationLogRepository repo;

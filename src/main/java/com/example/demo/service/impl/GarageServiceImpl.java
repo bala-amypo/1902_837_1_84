@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Garage;
 import com.example.demo.repository.GarageRepository;
-
+@Service
 public class GarageServiceImpl {
 
     private final GarageRepository repo;
