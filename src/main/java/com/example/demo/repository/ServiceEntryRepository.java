@@ -3,7 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.model.*;
 import java.time.LocalDate;
 import java.util.*;
-
+@Repository
 public interface ServiceEntryRepository {
     Optional<ServiceEntry> findById(Long id);
     Optional<ServiceEntry> findTopByVehicleOrderByOdometerReadingDesc(Vehicle v);
