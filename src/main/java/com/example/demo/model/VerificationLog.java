@@ -5,25 +5,15 @@ import java.time.LocalDateTime;
 
 @Entity
 public class VerificationLog {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private ServiceEntry serviceEntry;
 
     private LocalDateTime verifiedAt;
-
-    // No-args constructor (REQUIRED)
-    public VerificationLog() {}
-
-    // All-args constructor (optional)
-    public VerificationLog(Long id, ServiceEntry serviceEntry, LocalDateTime verifiedAt) {
-        this.id = id;
-        this.serviceEntry = serviceEntry;
-        this.verifiedAt = verifiedAt;
-    }
 
     // Getters and Setters
     public Long getId() { return id; }
