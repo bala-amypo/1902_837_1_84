@@ -1,19 +1,19 @@
-// package com.example.demo.service;
+package com.example.demo.service;
 
-// import com.example.demo.model.Garage;
+import com.example.demo.model.Garage;
 
-// import java.util.List;
-// import java.util.Optional;
+import java.util.List;
+import java.util.Optional;
 
-// public interface GarageService {
+public interface GarageService {
 
-//     Garage createGarage(Garage garage);
+    Garage createGarage(Garage garage);
 
-//     List<Garage> getAllGarages();
+    List<Garage> getAllGarages();
 
-//     Optional<Garage> getGarageById(Long id);
+    Optional<Garage> getGarageById(Long id);
 
-//     Garage updateGarage(Long id, Garage garage);
+    Garage updateGarage(Long id, Garage garage);
 
-//     void deleteGarage(Long id);
-//  }
+    void deleteGarage(Long id);
+ }
