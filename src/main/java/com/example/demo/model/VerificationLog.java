@@ -15,6 +15,17 @@ public class VerificationLog {
 
     private LocalDateTime verifiedAt;
 
+    // No-args constructor (REQUIRED)
+    public VerificationLog() {}
+
+    // All-args constructor (optional)
+    public VerificationLog(Long id, ServiceEntry serviceEntry, LocalDateTime verifiedAt) {
+        this.id = id;
+        this.serviceEntry = serviceEntry;
+        this.verifiedAt = verifiedAt;
+    }
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
