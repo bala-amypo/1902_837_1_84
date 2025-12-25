@@ -2,20 +2,28 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
+import com.example.demo.service.ServiceEntryService;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
+import java.util.List;
+
 @Service
-public class ServiceEntryServiceImpl {
+public class ServiceEntryServiceImpl implements ServiceEntryService {
 
     private final ServiceEntryRepository entryRepo;
     private final VehicleRepository vehicleRepo;
     private final GarageRepository garageRepo;
 
-    public ServiceEntryServiceImpl(ServiceEntryRepository e, VehicleRepository v, GarageRepository g) {
+    public ServiceEntryServiceImpl(ServiceEntryRepository e,
+                                  VehicleRepository v,
+                                  GarageRepository g) {
         this.entryRepo = e;
         this.vehicleRepo = v;
         this.garageRepo = g;
     }
 
+    @Override
     public ServiceEntry createServiceEntry(ServiceEntry e) {
 
         Vehicle v = vehicleRepo.findById(e.getVehicle().getId()).orElseThrow();
@@ -36,7 +44,8 @@ public class ServiceEntryServiceImpl {
         return entryRepo.save(e);
     }
 
-    public java.util.List<ServiceEntry> getEntriesForVehicle(Long id) {
+    @Override
+    public List<ServiceEntry> getEntriesForVehicle(Long id) {
         return entryRepo.findByVehicleId(id);
     }
 }
