@@ -1,25 +1,23 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.VerificationLog;
-import com.example.demo.repository.ServiceEntryRepository;
-import com.example.demo.repository.VerificationLogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.demo.repository.*;
+
 import java.time.LocalDateTime;
-@Service
+
 public class VerificationLogServiceImpl {
 
-    @Autowired
-    private ServiceEntryRepository serviceEntryRepository;
+    private final VerificationLogRepository repo;
+    private final ServiceEntryRepository entryRepo;
 
-    @Autowired
-    private VerificationLogRepository verificationLogRepository;
+    public VerificationLogServiceImpl(VerificationLogRepository r, ServiceEntryRepository e) {
+        this.repo = r;
+        this.entryRepo = e;
+    }
 
-    public VerificationLog createLog(VerificationLog log) {
-        serviceEntryRepository.findById(log.getServiceEntry().getId())
-                .orElseThrow();
-
-        log.setVerifiedAt(LocalDateTime.now());
-        return verificationLogRepository.save(log);
+    public VerificationLog createLog(VerificationLog v) {
+        entryRepo.findById(v.getServiceEntry().getId()).orElseThrow();
+        v.setVerifiedAt(LocalDateTime.now());
+        return repo.save(v);
     }
 }

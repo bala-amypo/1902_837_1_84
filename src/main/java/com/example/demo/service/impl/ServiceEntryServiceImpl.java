@@ -1,48 +1,42 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.ServiceEntry;
-import com.example.demo.model.Vehicle;
-import com.example.demo.repository.ServiceEntryRepository;
-import com.example.demo.service.ServiceEntryService;
-import org.springframework.stereotype.Service;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
+import java.time.LocalDate;
 
-import java.util.List;
-import java.util.Optional;
-@Service
 public class ServiceEntryServiceImpl {
 
-    @Autowired private VehicleRepository vehicleRepository;
-    @Autowired private GarageRepository garageRepository;
-    @Autowired private ServiceEntryRepository serviceEntryRepository;
+    private final ServiceEntryRepository entryRepo;
+    private final VehicleRepository vehicleRepo;
+    private final GarageRepository garageRepo;
+
+    public ServiceEntryServiceImpl(ServiceEntryRepository e, VehicleRepository v, GarageRepository g) {
+        this.entryRepo = e;
+        this.vehicleRepo = v;
+        this.garageRepo = g;
+    }
 
     public ServiceEntry createServiceEntry(ServiceEntry e) {
 
-        Vehicle v = vehicleRepository.findById(e.getVehicle().getId())
-                .orElseThrow();
+        Vehicle v = vehicleRepo.findById(e.getVehicle().getId()).orElseThrow();
+        Garage g = garageRepo.findById(e.getGarage().getId()).orElseThrow();
 
-        Garage g = garageRepository.findById(e.getGarage().getId())
-                .orElseThrow();
-
-        if (!Boolean.TRUE.equals(v.getActive())) {
+        if (!v.getActive())
             throw new IllegalArgumentException("Only active vehicles allowed");
-        }
 
-        if (e.getServiceDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Service date cannot be in future");
-        }
+        if (e.getServiceDate().isAfter(LocalDate.now()))
+            throw new IllegalArgumentException("Service date cannot be future");
 
-        serviceEntryRepository.findTopByVehicleOrderByOdometerReadingDesc(v)
+        entryRepo.findTopByVehicleOrderByOdometerReadingDesc(v)
                 .ifPresent(last -> {
-                    if (e.getOdometerReading() < last.getOdometerReading()) {
+                    if (e.getOdometerReading() < last.getOdometerReading())
                         throw new IllegalArgumentException("Odometer must be >=");
-                    }
                 });
 
-        return serviceEntryRepository.save(e);
+        return entryRepo.save(e);
     }
 
-    public List<ServiceEntry> getEntriesForVehicle(Long vehicleId) {
-        return serviceEntryRepository.findByVehicleId(vehicleId);
+    public java.util.List<ServiceEntry> getEntriesForVehicle(Long id) {
+        return entryRepo.findByVehicleId(id);
     }
 }
-
