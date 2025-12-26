@@ -1,14 +1,11 @@
 package com.example.demo.repository;
-import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Garage;
-import java.util.List;
-import java.util.Optional;
-import java.time.LocalDate;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface GarageRepository {
-    Optional<Garage> findById(Long id);
-    Optional<Garage> findByGarageName(String name);
-    Garage save(Garage g);
+import java.util.Optional;
+
+public interface GarageRepository extends JpaRepository<Garage, Long> {
+
+    Optional<Garage> findByGarageName(String garageName);
 }

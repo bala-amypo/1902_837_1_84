@@ -3,18 +3,29 @@ package com.example.demo.repository;
 import com.example.demo.model.ServiceEntry;
 import com.example.demo.model.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.time.LocalDate;
 
-@Repository
 public interface ServiceEntryRepository extends JpaRepository<ServiceEntry, Long> {
 
-    // Spring Data JPA will create the query automatically
-    List<ServiceEntry> findByVehicle(Vehicle vehicle);
+    Optional<ServiceEntry> findTopByVehicleOrderByOdometerReadingDesc(Vehicle vehicle);
 
-    // Example: find entries between two dates
-    List<ServiceEntry> findByServiceDateBetween(java.time.LocalDate startDate, java.time.LocalDate endDate);
+    List<ServiceEntry> findByVehicleId(Long vehicleId);
+
+    @Query("SELECT s FROM ServiceEntry s WHERE s.garage.id = :garageId AND s.odometerReading > :minOdometer")
+    List<ServiceEntry> findByGarageAndMinOdometer(
+            @Param("garageId") Long garageId,
+            @Param("minOdometer") int minOdometer
+    );
+
+    @Query("SELECT s FROM ServiceEntry s WHERE s.vehicle.id = :vehicleId AND s.serviceDate BETWEEN :from AND :to")
+    List<ServiceEntry> findByVehicleAndDateRange(
+            @Param("vehicleId") Long vehicleId,
+            @Param("from") LocalDate from,
+            @Param("to") LocalDate to
+    );
 }
