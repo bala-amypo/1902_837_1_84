@@ -1,37 +1,53 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.Vehicle;
+import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
-import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
+import org.springframework.stereotype.Service;
 
-@Service
+@Service  
 public class VehicleServiceImpl implements VehicleService {
+
+    private final VehicleRepository vehicleRepository;
+
+    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
+    }
 
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
-        return vehicle;
+        if (vehicleRepository.findByVin(vehicle.getVin()).isPresent()) {
+            throw new IllegalArgumentException("VIN already exists");
+        }
+        return vehicleRepository.save(vehicle);
     }
 
     @Override
-    public List<Vehicle> getAllVehicles() {
-        return List.of();
+    public Vehicle getVehicleById(Long id) {
+        return vehicleRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Vehicle not found"));
     }
 
     @Override
-    public Optional<Vehicle> getVehicleById(Long id) {
-        return Optional.empty(); // ✅ must be Optional
+    public Vehicle getVehicleByVin(String vin) {
+        return vehicleRepository.findByVin(vin)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Vehicle not found"));
     }
 
     @Override
-    public Vehicle updateVehicle(Long id, Vehicle vehicle) {
-        return vehicle;
+    public List<Vehicle> getVehiclesByOwner(Long ownerId) {
+        return vehicleRepository.findByOwnerId(ownerId);
     }
 
     @Override
-    public void deleteVehicle(Long id) {
-        // no implementation needed
+    public void deactivateVehicle(Long id) {
+        Vehicle vehicle = getVehicleById(id);
+        vehicle.setActive(false);
+        vehicleRepository.save(vehicle);
     }
 }

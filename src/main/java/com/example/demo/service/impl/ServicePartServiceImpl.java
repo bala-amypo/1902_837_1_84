@@ -1,37 +1,39 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.ServiceEntry;
 import com.example.demo.model.ServicePart;
+import com.example.demo.repository.ServiceEntryRepository;
+import com.example.demo.repository.ServicePartRepository;
 import com.example.demo.service.ServicePartService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
-@Service
+@Service  
 public class ServicePartServiceImpl implements ServicePartService {
 
-    @Override
-    public ServicePart createServicePart(ServicePart part) {
-        return part;
+    private final ServicePartRepository servicePartRepository;
+    private final ServiceEntryRepository serviceEntryRepository;
+
+    public ServicePartServiceImpl(ServicePartRepository servicePartRepository,
+                                  ServiceEntryRepository serviceEntryRepository) {
+        this.servicePartRepository = servicePartRepository;
+        this.serviceEntryRepository = serviceEntryRepository;
     }
 
     @Override
-    public List<ServicePart> getAllServiceParts() {
-        return List.of();
-    }
+    public ServicePart createPart(ServicePart part) {
 
-    @Override
-    public Optional<ServicePart> getServicePartById(Long id) {
-        return Optional.empty();
-    }
+        Long serviceEntryId = part.getServiceEntry().getId();
 
-    @Override
-    public ServicePart updateServicePart(Long id, ServicePart part) {
-        return part;
-    }
+        ServiceEntry entry = serviceEntryRepository.findById(serviceEntryId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("ServiceEntry not found"));
 
-    @Override
-    public void deleteServicePart(Long id) {
-        // no implementation needed
+        if (part.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+
+        part.setServiceEntry(entry);
+        return servicePartRepository.save(part);
     }
 }
