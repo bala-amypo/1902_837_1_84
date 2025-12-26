@@ -1,10 +1,10 @@
 package com.example.demo.controller;
-
+import java.util.List;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.VehicleService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/vehicles")

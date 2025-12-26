@@ -1,8 +1,8 @@
 package com.example.demo.controller;
-
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.VerificationLog;
 import com.example.demo.service.VerificationLogService;
-import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/verification-logs")

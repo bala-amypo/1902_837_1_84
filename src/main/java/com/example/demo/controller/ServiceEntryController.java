@@ -1,10 +1,10 @@
 package com.example.demo.controller;
-
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.ServiceEntry;
 import com.example.demo.service.ServiceEntryService;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping("/service-entries")

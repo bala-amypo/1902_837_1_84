@@ -1,8 +1,8 @@
 package com.example.demo.controller;
-
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.ServicePart;
 import com.example.demo.service.ServicePartService;
-import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/service-parts")

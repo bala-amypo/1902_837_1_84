@@ -1,7 +1,7 @@
 package com.example.demo.controller;
-
-import com.example.demo.security.JwtTokenProvider;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.security.JwtTokenProvider;
+
 
 @RestController
 @RequestMapping("/auth")
