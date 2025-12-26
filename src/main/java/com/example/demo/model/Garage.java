@@ -1,34 +1,64 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import java.util.Set;
-import java.util.HashSet;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "garages")
 public class Garage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String garageName;
-
     private String address;
-    private boolean active = true;
+    private Boolean active = true;
 
-    @OneToMany(mappedBy = "garage")
-    private Set<ServiceEntry> serviceEntries = new HashSet<>();
+   
+    public Garage() {
+    }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    
+    public Garage(String garageName, String address, Boolean active) {
+        this.garageName = garageName;
+        this.address = address;
+        this.active = active;
+    }
 
-    public String getGarageName() { return garageName; }
-    public void setGarageName(String garageName) { this.garageName = garageName; }
+   
+    public Long getId() {
+        return id;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public String getGarageName() {
+        return garageName;
+    }
+
+    public void setGarageName(String garageName) {
+        this.garageName = garageName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
