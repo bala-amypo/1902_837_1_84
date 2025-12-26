@@ -4,8 +4,6 @@ import com.example.demo.model.Garage;
 import com.example.demo.service.GarageService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/garages")
 public class GarageController {
@@ -17,28 +15,7 @@ public class GarageController {
     }
 
     @PostMapping
-    public Garage createGarage(@RequestBody Garage garage) {
-        return garageService.createGarage(garage); // <--- updated method name
-    }
-
-    @GetMapping
-    public List<Garage> getAllGarages() {
-        return garageService.getAllGarages();
-    }
-
-    @GetMapping("/{id}")
-    public Garage getGarage(@PathVariable Long id) {
-        return garageService.getGarageById(id)
-                .orElseThrow(() -> new RuntimeException("Garage not found"));
-    }
-
-    @PutMapping("/{id}")
-    public Garage updateGarage(@PathVariable Long id, @RequestBody Garage garage) {
-        return garageService.updateGarage(id, garage);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteGarage(@PathVariable Long id) {
-        garageService.deleteGarage(id);
+    public Garage create(@RequestBody Garage garage) {
+        return garageService.createGarage(garage);
     }
 }
