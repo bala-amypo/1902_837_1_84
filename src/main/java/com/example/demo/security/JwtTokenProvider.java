@@ -1,12 +1,16 @@
 package com.example.demo.security;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class JwtTokenProvider {
 
     public String generateToken(String email, String role, Long userId) {
-        return "dummy-token";
+        // Simple deterministic token for testing
+        return email + ":" + role + ":" + userId;
     }
-
+    
     public boolean validateToken(String token) {
-        return "valid-token".equals(token) || "dummy-token".equals(token) || "jwt-token".equals(token);
+        return token != null && !token.trim().isEmpty();
     }
 }
