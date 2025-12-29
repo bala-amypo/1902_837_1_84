@@ -6,6 +6,6 @@ public class SecurityConstants {
     public static final String HEADER_STRING = "Authorization";
 
     private SecurityConstants() {
-        // utility class
+        
     }
 }

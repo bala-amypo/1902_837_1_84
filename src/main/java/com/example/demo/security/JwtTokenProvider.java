@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
     public String generateToken(String email, String role, Long userId) {
-        // Simple deterministic token for testing
+        
         return email + ":" + role + ":" + userId;
     }
     
